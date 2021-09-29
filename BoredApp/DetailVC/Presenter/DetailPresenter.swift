@@ -49,7 +49,6 @@ class DetailPresenter {
         for activity in ActivitySearchCriteria.shared.types {
             DispatchQueue.global(qos: .userInitiated).sync {
                 ActivitySearchCriteria.shared.searchWithTypeCriteria(type: activity, completion: { [weak self] error in
-                    print(activity)
                     if error != nil {
                         if !self!.alertIsPresented {
                             self?.viewInput?.showErrorCDAlert(error: error!.error)

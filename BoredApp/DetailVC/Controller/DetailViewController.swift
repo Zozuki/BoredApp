@@ -38,6 +38,7 @@ final class DetailViewController: UIViewController {
         presenter.viewInput = self
     }
     
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         delegate?.modalControllerWillDisapear(self)
@@ -45,6 +46,7 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addTapGesture()
         detailView.participantsTextField?.delegate = self
         detailView.configurateLoadingScreenWithCriteria()
     }
@@ -122,11 +124,17 @@ final class DetailViewController: UIViewController {
 
 // MARK: UITextFieldDelegate
 extension DetailViewController: UITextFieldDelegate  {
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         return updatedText.count <= 1
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        detailView.participantsTextField?.resignFirstResponder()
+        return true
     }
 }
 
@@ -145,5 +153,16 @@ extension DetailViewController: DetailViewInput {
         let ac = CDAlertView(title: error, message: "", type: .notification)
         ac.add(action: CDAlertViewAction(title: "Ok"))
         ac.show()
+    }
+}
+
+extension DetailViewController: UIGestureRecognizerDelegate {
+    func addTapGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        tap.delegate = self
+        detailView.addGestureRecognizer(tap)
+    }
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        textFieldShouldReturn(detailView.participantsTextField!)
     }
 }

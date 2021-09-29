@@ -51,7 +51,6 @@ class Service: ServiceProtocol {
             
             if let data = data, let error = try? JSONDecoder().decode(ErrorModel.self, from: data) {
                 DispatchQueue.main.async {
-                    print(error.error)
                     completion(nil, error)
                 }
             }

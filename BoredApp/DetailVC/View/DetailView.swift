@@ -111,12 +111,9 @@ class DetailView : UIView {
     func changeActivityList(activity: activities) {
         if !ActivitySearchCriteria.shared.types.contains(activity) {
             ActivitySearchCriteria.shared.types.append(activity)
-            print(ActivitySearchCriteria.shared.types)
         } else {
             guard let index = ActivitySearchCriteria.shared.types.lastIndex(of: activity) else { return }
             ActivitySearchCriteria.shared.types.remove(at: index)
-            print(ActivitySearchCriteria.shared.types)
-          
         }
     }
     

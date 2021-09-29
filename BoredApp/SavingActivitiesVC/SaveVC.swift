@@ -13,18 +13,14 @@ class SaveVC: UIViewController {
     var stackContainer: StackContainerView?
     let reloadButton = UIButton()
     let dataStoreManager = DataStoreManager()
-    var storedActivities = [ActivityCardsDataModel] ()
     
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-
         stackContainer?.dataSource = self
-        storedActivities = dataStoreManager.getActivityFromCoreData()
     }
     
     override func loadView() {
-        storedActivities = dataStoreManager.getActivityFromCoreData()
         view = UIView()
         view.backgroundColor = UIColor.systemBackground
         configureReloadButton()
@@ -72,12 +68,12 @@ class SaveVC: UIViewController {
 extension SaveVC : SwipeCardsDataSource {
     
     func numberOfCardsToShow() -> Int {
-        return storedActivities.count
+        return  dataStoreManager.getActivityFromCoreData().count
     }
     
     func card(at index: Int) -> SwipeCardView {
         let card = SwipeCardView()
-        card.dataSource = storedActivities[index]
+        card.dataSource =  dataStoreManager.getActivityFromCoreData()[index]
         return card
     }
     
